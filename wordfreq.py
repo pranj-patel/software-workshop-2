@@ -1,19 +1,22 @@
-#!/usr/bin/python3
+# wordfreq.py
 
-import sys
-import string
+def read_input(filename):
+    with open(filename, 'r') as file:
+        data = file.readlines()
+    return [line.strip() for line in data]
 
-words = sys.stdin.read().split()
-d = dict()
-for word in words:
-	t = word.translate(str.maketrans('','',string.punctuation)).upper()
-	if(len(t) > 0):
-		d[t] = d.get(t,0) + 1
+if __name__ == "__main__":
+    filename = "test.txt"  # Hardcoded filename for now
+    lines = read_input(filename)
+    word_freq = {}
+    for line in lines:
+        words = line.split()
+        for word in words:
+            word = word.lower()  # Convert the word to lowercase
+            if word in word_freq:
+                word_freq[word] += 1
+            else:
+                word_freq[word] = 1
 
-l = list()
-for key,value in d.items():
-	l.append((value,key))
-	
-l = sorted(l, reverse=True)
-for v,k in l:
-	print(k,v)
+    for word, freq in word_freq.items():
+        print(f"{word} {freq}")
